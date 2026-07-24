@@ -24,12 +24,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
     sourceSets {
-        getByName("main").java.srcDirs("src/main/kotlin")
+        getByName("main") {
+            java.setSrcDirs(listOf("src/main/kotlin"))
+        }
     }
 
     defaultConfig {
@@ -38,7 +36,6 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutterVersionCode.toInt()
         versionName = flutterVersionName
-
         manifestPlaceholders["applicationName"] = "android.app.Application"
     }
 
@@ -49,16 +46,21 @@ android {
     }
 
     applicationVariants.all {
-        outputs.all {
-            val output = this as com.android.build.gradle.internal.api.ApkVariantOutputImpl
-            val abi = output.getFilter(com.android.build.OutputFile.ABI)
-            val baseName = "time_price_v0.1"
-            if (abi != null) {
-                output.outputFileName = "${baseName}_${abi}.apk"
-            } else {
-                output.outputFileName = "${baseName}.apk"
+        val variant = this
+        variant.outputs.forEach { output ->
+            val apkOutput = output as? com.android.build.gradle.internal.api.ApkVariantOutputImpl
+            if (apkOutput != null) {
+                val abi = apkOutput.getFilter("ABI")
+                val baseName = "time_price_v0.1"
+                apkOutput.outputFileName = if (abi != null) "${baseName}_${abi}.apk" else "${baseName}.apk"
             }
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
     }
 }
 

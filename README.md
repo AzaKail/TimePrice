@@ -1,46 +1,39 @@
-# Time Price
+# Часы Жизни (Time Price)
 
-Time Price переводит цену покупки в рабочее время конкретного человека. Первая версия работает офлайн, без регистрации и сервера.
+**Часы Жизни** — это мобильное приложение на Flutter, которое помогает переосмыслить стоимость покупок, переводя их цену в эквивалент вашего рабочего времени.
 
-## Что уже есть
+## Основная идея
+Вместо того чтобы видеть просто цифры на ценнике, приложение показывает, сколько реальных часов или дней жизни вам придется отработать, чтобы позволить себе эту покупку. Это помогает принимать более осознанные финансовые решения.
 
-- первый запуск с вводом зарплаты и валюты;
-- график `21 × 8`, реальный предыдущий месяц или ручной режим;
-- расчёт дохода за день, час и минуту;
-- перевод покупки в рабочие дни, часы, недели и процент зарплаты;
-- локальное сохранение рабочего профиля;
-- тёмная тема и русскоязычный интерфейс;
-- модульные тесты основных формул.
+## Ключевые функции
+*   **Гибкий расчет:** Учет вашей реальной зарплаты, количества рабочих дней в месяце и продолжительности смены.
+*   **Быстрый калькулятор:** Ввод цены и мгновенный результат (часы, минуты, доля от месячного дохода).
+*   **Виджет для Android:** Быстрый доступ к расчету прямо с рабочего стола телефона.
+*   **Мини-калькулятор:** Компактное всплывающее окно для мгновенных вычислений "на ходу".
+*   **Кошелек (в разработке):** Модуль для учета трат с автоматическим расчетом стоимости каждой категории в рабочих часах.
 
-## Первый запуск на Windows
+## Технологии
+*   **Flutter & Dart:** Кроссплатформенная разработка.
+*   **SQLite:** Надежное локальное хранение данных.
+*   **Native Android Integration:** Использование App Widgets и Deep Linking для бесшовного опыта.
 
-Android Studio уже содержит Android SDK, но Flutter SDK устанавливается отдельно.
+---
 
-1. Установите [Flutter SDK для Windows](https://docs.flutter.dev/get-started/install/windows/mobile) и добавьте `flutter\bin` в `PATH`.
-2. Перезапустите терминал и Android Studio.
-3. В корне проекта выполните:
+# Time Price (Life Hours)
 
-```powershell
-.\setup.ps1
-```
+**Time Price** is a Flutter-based mobile application that helps you rethink the cost of purchases by translating their price into the equivalent of your working time.
 
-Скрипт создаст стандартную Android-часть Flutter-проекта, загрузит зависимости и запустит диагностику. Затем откройте эту папку в Android Studio, запустите эмулятор и выполните:
+## Core Idea
+Instead of just seeing numbers on a price tag, the app shows you how many actual hours or days of your life you have to work to afford a purchase. This promotes more mindful financial decision-making.
 
-```powershell
-flutter run
-```
+## Key Features
+*   **Flexible Calculation:** Accounts for your actual salary, work days per month, and shift duration.
+*   **Quick Calculator:** Input a price and get an instant result (hours, minutes, share of monthly income).
+*   **Android Widget:** Quick access to calculation directly from your phone's home screen.
+*   **Mini-Calculator:** A compact pop-up overlay for instant on-the-go calculations.
+*   **Wallet (In Progress):** A module for tracking expenses with automatic calculation of the "time cost" for each category.
 
-Проверка тестов:
-
-```powershell
-flutter test
-```
-
-## Структура
-
-- `lib/domain` — формулы и модели без привязки к интерфейсу;
-- `lib/data` — локальное хранение настроек;
-- `lib/ui` — экраны настройки и калькулятора;
-- `test` — проверки расчётов.
-
-Следующий разумный этап: сохранённые покупки с фиксацией зарплаты и графика на момент расчёта.
+## Tech Stack
+*   **Flutter & Dart:** For cross-platform development.
+*   **SQLite:** For reliable local data storage.
+*   **Native Android Integration:** Leveraging App Widgets and Deep Linking for a seamless experience.
