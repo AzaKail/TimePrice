@@ -27,36 +27,55 @@ class _TimePriceAppState extends State<TimePriceApp> {
   @override
   void initState() {
     super.initState();
-    _load();
-    _checkInitialUri();
+    _initApp();
   }
 
-  Future<void> _checkInitialUri() async {
-    final uri = await HomeWidget.initiallyLaunchedFromHomeWidget();
-    if (uri?.host == 'calc') {
-      setState(() => _showMiniCalc = true);
+  Future<void> _initApp() async {
+    print('DEBUG: Начало инициализации...');
+    try {
+      final profile = await _store.load();
+      print('DEBUG: Профиль загружен: ${profile != null}');
+      
+      Uri? initialUri;
+      try {
+        initialUri = await HomeWidget.initiallyLaunchedFromHomeWidget().timeout(
+          const Duration(milliseconds: 500),
+          onTimeout: () => null,
+        );
+      } catch (e) {
+        print('DEBUG: Ошибка виджета: $e');
+      }
+
+      if (mounted) {
+        setState(() {
+          _profile = profile;
+          _showMiniCalc = initialUri?.host == 'calc';
+          _loading = false;
+        });
+      }
+    } catch (e) {
+      print('DEBUG: Глобальная ошибка инициализации: $e');
+      if (mounted) {
+        setState(() => _loading = false);
+      }
     }
   }
 
-  Future<void> _load() async {
-    final profile = await _store.load();
-    if (!mounted) return;
-    setState(() {
-      _profile = profile;
-      _loading = false;
-    });
-  }
-
   Future<void> _save(WorkProfile profile) async {
-    await _store.save(profile);
-    if (mounted) {
-      setState(() => _profile = profile);
+    print('DEBUG: Сохранение профиля...');
+    try {
+      await _store.save(profile);
+      print('DEBUG: Сохранено успешно');
+      if (mounted) {
+        setState(() => _profile = profile);
+      }
+    } catch (e) {
+      print('DEBUG: Ошибка сохранения: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    const seed = Color(0xFF7867E6);
     return MaterialApp(
       title: 'Часы Жизни',
       debugShowCheckedModeBanner: false,
@@ -65,7 +84,7 @@ class _TimePriceAppState extends State<TimePriceApp> {
         useMaterial3: true,
         brightness: Brightness.dark,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: seed,
+          seedColor: const Color(0xFF7867E6),
           brightness: Brightness.dark,
           surface: const Color(0xFF121218),
         ),
